@@ -69,10 +69,13 @@ var appState = {
 
 //generate next question page
 function nextQuestion(state) {
-	if (state.results[state.currentQuestion] == "correct") {
+  if (state.currentQuestion == 5){
+    //return quiz over function, draw last page
+  }
+  else if (state.results[state.currentQuestion] == "correct") {
 		console.log("Your answer was correct");
 	}
-	else {
+  else {
 		console.log("Your answer was incorrect");
 	}
 	state.currentQuestion++;
