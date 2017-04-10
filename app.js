@@ -4,53 +4,52 @@ var appState = {
   questions: [
     {
      question:'5*2',
-     '6' : false,
-     '5' : false,
-     '10':true,
-     '15':false,
-     '16':false,
-      answer:10
+     choices:[4, 13, 5, 10, 93],
+      answer:3
     },
     {
     question:'10*5',
-    '4':false,
-    '7':false,
-    '50':true,
-    '43':false,
-    '55':false,
-      answer:50
+    choices:[105, 15, 5, 1, 50],
+      answer:4
     },
     {
       question:'5+3',
-      '5':false,
-      '11':false,
-      '13':false,
-      '8':true,
-      '10':false,
-      answer:8
+      choices:[8, 5, 11, 93, 53],
+      answer:0
     },
     {
       question:'5-3',
-      '5':false,
-      '11':false,
-      '13':false,
-      '2':true,
-      '10':false,
-      answer:2
+      choices:[3, 2, 9, 5, 10],
+      answer:1
     },
     {
       question:'15+3',
-      '5':false,
-      '11':false,
-      '13':false,
-      '18':true,
-      '10':false,
-      answer:18
+      choices:[8, 3, 18, 23, 41],
+      answer:2
     }
   ]
-
- 
+//draw options from ${questions[index].choices}
+  //map array and draw HTML
+//answer is the position of the answer in the choices array
 };
+
+function render(state, element){
+  let index = state.currentQuestion;
+  var choicesHTML =
+    `<form>
+      <input type ='radio' name='${state.questions[index].choices[0]}>
+      <input type ='radio' name='${state.questions[index].choices[1]}>
+      <input type ='radio' name='${state.questions[index].choices[2]}>
+      <input type ='radio' name='${state.questions[index].choices[3]}>
+      <input type ='radio' name='${state.questions[index].choices[4]}>
+      <button type='submit' class='submitButton'>submit</button>
+     </form>`;
+  
+ element.html(choicesHTML);
+
+  }
+
+
 
 
 //take the box input, go to questions[currentQuestion], iterate through and see if provided answer : true
@@ -62,23 +61,25 @@ var appState = {
 
 
 
-
+//  if (state.currentQuestion == 5){
+//    all render logic inside render func
+//  }
 
 
 //initialize quiz, set currentQuestion to 0, generate first question page
 
 //generate next question page
 function nextQuestion(state) {
-  if (state.currentQuestion == 5){
-    //return quiz over function, draw last page
-  }
-  else if (state.results[state.currentQuestion] == "correct") {
+
+  if (state.results[state.currentQuestion] == "correct") {
 		console.log("Your answer was correct");
 	}
-  else {
+  else if (state.results[state.currentQuestion] == "incorrect") {
 		console.log("Your answer was incorrect");
-	}
-	state.currentQuestion++;
+	} else {
+      console.log("Your answer was invalid");
+    }
+//	state.currentQuestion++;
 	//call render function
 
 }
@@ -98,7 +99,7 @@ function checkAnswer(state, input){
 let test = 10;
 checkAnswer(appState, test);
 nextQuestion(appState);
-                      
+render(appState);
       
 //go to beginning
 
@@ -110,17 +111,24 @@ nextQuestion(appState);
 
 
 //start
-//select answer
+
+$('.start').click(function(){
+  
+})
 //submit answer
+
+$('.submit').click(function(){
+  
+})
 //wrap all options + submit in an <input type =radio>
 //$('input[type=radio]').click(function() {
 //    $("form id or class").submit();
 //});
 
 //try again
-
+$('.start-over').click(function(){
+  
+})
 
 
 //render functions
-
-
