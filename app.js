@@ -33,7 +33,8 @@ var appState = {
 //answer is the position of the answer in the choices array
 };
 
-function render(state, element){
+function render(state, element, choice){
+  element.clear();
   let index = state.currentQuestion;
   var choicesHTML =
     `<form>
@@ -44,9 +45,9 @@ function render(state, element){
       <input type ='radio' name='choice'value ='${state.questions[index].choices[4]}'> ${state.questions[index].choices[4]}<br>
       <button type='submit' class='submitButton'>submit</button>
      </form>`;
-  console.log(state.questions[index].choices[0]);
- element.html(choicesHTML);
-
+  if (choice == 'choices'){
+    element.html(choicesHTML);
+  }
   }
 
 
@@ -112,12 +113,12 @@ nextQuestion(appState);
 $(document).ready(function(){ 
 let container = $('.container');
     $('.startButton').click(function(){
-      render(appState, container);
+      render(appState, container, choices);
     })
     //submit answer
 
     $('.submit').click(function(){
-
+      
     })
     //wrap all options + submit in an <input type =radio>
     //$('input[type=radio]').click(function() {
