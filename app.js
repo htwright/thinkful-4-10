@@ -1,5 +1,5 @@
 var appState = {
-  currentQuestion : 1,
+  currentQuestion : 0,
   results : [],
   questions: [
     {
@@ -68,6 +68,17 @@ var appState = {
 //initialize quiz, set currentQuestion to 0, generate first question page
 
 //generate next question page
+function nextQuestion(state) {
+	if (state.results[state.currentQuestion] == "correct") {
+		console.log("Your answer was correct");
+	}
+	else {
+		console.log("Your answer was incorrect");
+	}
+	state.currentQuestion++;
+	//call render function
+
+}
 
 //check answer
 //take in the answer submitted + state (currentQuestion)
@@ -76,15 +87,14 @@ function checkAnswer(state, input){
   let currentIndex = state.currentQuestion; 
   let solution = state.questions[currentIndex].answer;
   if(input === solution){
-    state.results.push('correct');
+    state.results.push("correct");
   } else {
-    state.results.push('incorrect');
+    state.results.push("incorrect");
   }
 }
-let test = 50;
-console.log(checkAnswer(appState, test));
-//use .prop() to check if state.questions[currentQuestion].prop(submitted answer)
-//if (appState.questions(currentQuestion).prop(input))
+let test = 10;
+checkAnswer(appState, test);
+nextQuestion(appState);
                       
       
 //go to beginning
