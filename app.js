@@ -45,6 +45,15 @@ function render(state, element, choice){
       <input type ='radio' name='choice'value ='${state.questions[index].choices[4]}'> ${state.questions[index].choices[4]}<br>
       <button type='submit' class='submitButton'>submit</button>
      </form>`;
+  var correctAnswers = appState.results.filter('correct');
+  var incorrectAnswers = appState.results.filter('incorrect');
+
+  var closingScreenHTML = 
+    `<h1>Game Over</h1>
+    <span class="">You got ${correctAnswers} of ${appState.questions.length}.</span>
+    <button class="startOverButton">Start Over
+    </button>`;
+
   if (choice == 'choices'){
     element.html(choicesHTML);
   }
@@ -113,21 +122,33 @@ nextQuestion(appState);
 $(document).ready(function(){ 
 let container = $('.container');
     $('.startButton').click(function(){
+      appState.currentQuestion = 0;
       render(appState, container, choices);
     })
     //submit answer
 
     $('.submit').click(function(){
-      
+      appState.currentQuestion++;
+      if(appState.currentQuestion < appState.questions.length ) {
+        render(appState, container, choices);
+      }
+      else {
+        render(appState,container,closingScreen);
+      }
+
+
     })
+
     //wrap all options + submit in an <input type =radio>
     //$('input[type=radio]').click(function() {
     //    $("form id or class").submit();
     //});
 
     //try again
-    $('.start-over').click(function(){
-
+    $('.startOverButton').click(function(){
+      appState.currentQuestion = null;
+      appState.results = [];
+      render(appState,container, openingScreen);  
     })
 
 })
