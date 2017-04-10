@@ -37,14 +37,14 @@ function render(state, element){
   let index = state.currentQuestion;
   var choicesHTML =
     `<form>
-      <input type ='radio' name='${state.questions[index].choices[0]}>
-      <input type ='radio' name='${state.questions[index].choices[1]}>
-      <input type ='radio' name='${state.questions[index].choices[2]}>
-      <input type ='radio' name='${state.questions[index].choices[3]}>
-      <input type ='radio' name='${state.questions[index].choices[4]}>
+      <input type ='radio' name='choice' value ='${state.questions[index].choices[0]}'> ${state.questions[index].choices[0]}<br>
+      <input type ='radio' name='choice'value ='${state.questions[index].choices[1]}'> ${state.questions[index].choices[1]}<br>
+      <input type ='radio' name='choice'value ='${state.questions[index].choices[2]}'> ${state.questions[index].choices[2]}<br>
+      <input type ='radio' name='choice'value ='${state.questions[index].choices[3]}'> ${state.questions[index].choices[3]}<br>
+      <input type ='radio' name='choice'value ='${state.questions[index].choices[4]}'> ${state.questions[index].choices[4]}<br>
       <button type='submit' class='submitButton'>submit</button>
      </form>`;
-  
+  console.log(state.questions[index].choices[0]);
  element.html(choicesHTML);
 
   }
@@ -98,9 +98,7 @@ function checkAnswer(state, input){
 }
 let test = 10;
 checkAnswer(appState, test);
-nextQuestion(appState);
-render(appState);
-      
+nextQuestion(appState);      
 //go to beginning
 
 
@@ -111,24 +109,25 @@ render(appState);
 
 
 //start
+$(document).ready(function(){ 
+let container = $('.container');
+    $('.startButton').click(function(){
+      render(appState, container);
+    })
+    //submit answer
 
-$('.start').click(function(){
-  
+    $('.submit').click(function(){
+
+    })
+    //wrap all options + submit in an <input type =radio>
+    //$('input[type=radio]').click(function() {
+    //    $("form id or class").submit();
+    //});
+
+    //try again
+    $('.start-over').click(function(){
+
+    })
+
 })
-//submit answer
-
-$('.submit').click(function(){
-  
-})
-//wrap all options + submit in an <input type =radio>
-//$('input[type=radio]').click(function() {
-//    $("form id or class").submit();
-//});
-
-//try again
-$('.start-over').click(function(){
-  
-})
-
-
 //render functions
