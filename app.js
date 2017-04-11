@@ -1,5 +1,5 @@
 const appState = {
-  currentQuestion: 0,
+  currentQuestion: null,
   results: [],
   questions: [
     {
@@ -36,6 +36,7 @@ const appState = {
 function render(state, element, choice) {
   element.empty();
   let index = state.currentQuestion;
+  if (choice == 'choices') {
   let choicesHTML =
     //added ID to quizForm for selection purposes
     `<h1>${state.questions[index].question}</h1>
@@ -45,9 +46,12 @@ function render(state, element, choice) {
       <input type ='radio' name='choice'value ='${state.questions[index].choices[2]}'> ${state.questions[index].choices[2]}<br>
       <input type ='radio' name='choice'value ='${state.questions[index].choices[3]}'> ${state.questions[index].choices[3]}<br>
       <input type ='radio' name='choice'value ='${state.questions[index].choices[4]}'> ${state.questions[index].choices[4]}<br>
-      <button type='submit' class='submit'>submit</button>
+      <button id='submitButton' type='button'>submit answer</button>
      </form>`;
-  let correctAnswers = appState.results.filter(function (result) {
+      element.html(choicesHTML);
+
+  }  else if (choice == 'closingScreen') {
+    let correctAnswers = appState.results.filter(function (result) {
     return result === 'correct';
   });
   let incorrectAnswers = appState.results.filter(function (result) {
@@ -59,14 +63,11 @@ function render(state, element, choice) {
     <span class="">You got ${correctAnswers.length} of ${appState.questions.length}.</span>
     <button class="startOverButton">Start Over
     </button>`;
+    element.html(closingScreenHTML);
+
+  } else if (choice == 'startingScreen') {
   let startingScreenHTML = `<h1>Math Quiz</h1><br>
     <button class= 'startButton'> Start quiz!</button>`;
-
-  if (choice == 'choices') {
-    element.html(choicesHTML);
-  } else if (choice == 'closingScreen') {
-    element.html(closingScreenHTML);
-  } else if (choice == 'startingScreen') {
     element.html(startingScreenHTML)
   }
 }
@@ -94,21 +95,22 @@ function checkAnswer(state, input) {
   }
 }
 
+//first submit re-displays current index of questions
+//second submit and beyond increment properly
 
-//start
+//submit should not instantly render next question
 $(document).ready(function () {
     let container = $('.container');
-    let userInput = $('input[name=choice]:radio:checked').val();
-    $('.startButton').click(function (event) {
+    let userInput = $('input[name="choice"]:radio:checked').val();
+    $('div').on('click', '.startButton', function (event) {
       appState.currentQuestion = 0;
       render(appState, container, 'choices');
     })
-  //VVV EVENT DELEGATION HERE VVV
-  $('.container').click(function (event) {
+  $('div').on('click', '#submitButton', function (event) {
     event.preventDefault();
-    checkAnswer(appState, userInput);
-    appState.currentQuestion++;
-    if (appState.currentQuestion < appState.questions.length) {
+    if (appState.currentQuestion < appState.questions.length - 1) {
+      checkAnswer(appState, userInput);
+      appState.currentQuestion++;
       render(appState, container, 'choices');
     } else {
       render(appState, container, 'closingScreen');
@@ -117,11 +119,11 @@ $(document).ready(function () {
 
   })
 
-  $('.startOverButton').click(function (event) {
-    event.preventDefault();
+  $('div').on('click', '.startOverButton', function (event) {
+//    event.preventDefault();
     appState.currentQuestion = null;
     appState.results = [];
-    render(appState, container, 'openingScreen');
+    render(appState, container, 'startingScreen');
   })
 
 })
