@@ -41,7 +41,7 @@ function render(state, element, choice) {
     //added ID to quizForm for selection purposes
     `<h1>${state.questions[index].question}</h1>
       <form id = 'quizForm'>
-      <input type ='radio' name='choice' value ='${state.questions[index].choices[0]}'> ${state.questions[index].choices[0]}<br>
+      <input type ='radio' name='choice'value ='${state.questions[index].choices[0]}'> ${state.questions[index].choices[0]}<br>
       <input type ='radio' name='choice'value ='${state.questions[index].choices[1]}'> ${state.questions[index].choices[1]}<br>
       <input type ='radio' name='choice'value ='${state.questions[index].choices[2]}'> ${state.questions[index].choices[2]}<br>
       <input type ='radio' name='choice'value ='${state.questions[index].choices[3]}'> ${state.questions[index].choices[3]}<br>
@@ -69,6 +69,8 @@ function render(state, element, choice) {
   let startingScreenHTML = `<h1>Math Quiz</h1><br>
     <button class= 'startButton'> Start quiz!</button>`;
     element.html(startingScreenHTML)
+  } else if (choice == 'intermediateScreen'){
+    
   }
 }
 
@@ -88,7 +90,7 @@ function render(state, element, choice) {
 function checkAnswer(state, input) {
   let currentIndex = state.currentQuestion;
   let solution = state.questions[currentIndex].answer;
-  if (input === solution) {
+  if (input == solution) {
     state.results.push("correct");
   } else {
     state.results.push("incorrect");
@@ -101,15 +103,17 @@ function checkAnswer(state, input) {
 //submit should not instantly render next question
 $(document).ready(function () {
     let container = $('.container');
-    let userInput = $('input[name="choice"]:radio:checked').val();
+  //parseInt( $("input[name='choice']:checked").val() );
     $('div').on('click', '.startButton', function (event) {
       appState.currentQuestion = 0;
       render(appState, container, 'choices');
     })
   $('div').on('click', '#submitButton', function (event) {
     event.preventDefault();
+    let userInput = $("input[name='choice']:checked").val() ;
+    console.log(userInput);
+    checkAnswer(appState, userInput);
     if (appState.currentQuestion < appState.questions.length - 1) {
-      checkAnswer(appState, userInput);
       appState.currentQuestion++;
       render(appState, container, 'choices');
     } else {
