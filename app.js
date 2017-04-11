@@ -68,13 +68,14 @@ function render(state, element, choice) {
   } else if (choice == 'startingScreen') {
   let startingScreenHTML = `<h1>Math Quiz</h1><br>
     <button class= 'startButton'> Start quiz!</button>`;
-    element.html(startingScreenHTML)
+    element.html(startingScreenHTML);
   } else if (choice == 'intermediateScreen'){
     let correctAnswers = appState.results.filter(function (result) {
     return result === 'correct';
   })
     let intermediateScreenHTML = `<h1>That answer was ${state.results[index]}.</h1>
                                   <h2>You have${correctAnswers.length} out of ${appState.results.length}correct.</h2>`;
+    element.html(intermediateScreenHTML);
   }
 }
 //if we check answer before we render the intermediate screen
@@ -106,12 +107,20 @@ $(document).ready(function () {
     let userInput = $("input[name='choice']:checked").val() ;
     checkAnswer(appState, userInput);
     if (appState.currentQuestion < appState.questions.length - 1) {
+      render(appState, container, 'intermediateScreen');
       appState.currentQuestion++;
-      render(appState, container, 'choices');
+      setTimeout(function(){
+        render(appState, container, 'choices');
+      }, 4000);
     } else {
       render(appState, container, 'closingScreen');
     }
 
+//console.log("HELLO");
+//setTimeout(function(){
+//    console.log("THIS IS");
+//}, 2000);
+//console.log("DOG");
 
   })
 
