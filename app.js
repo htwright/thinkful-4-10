@@ -48,7 +48,6 @@ function render(state, element, choice) {
   let correctAnswers = getCorrect();
   let incorrectAnswers = getIncorrect();
   let percentage = (index / 5) * 100; 
-  console.log(percentage);
   let choicesHTML =
      `<h1>QUESTION #${state.currentQuestion +1}<br> ${state.questions[index].question}</h1>
       <h2>Current Score <br> ${correctAnswers.length} correct <br>${incorrectAnswers.length} incorrect</h2>
@@ -110,7 +109,6 @@ $(document).ready(function () {
   $('div').on('click', '#submitButton', function (event) {
     event.preventDefault();
     let userInput = parseInt($("input[name='choice']:checked").val());
-    console.log(userInput);
     if (isNaN(userInput) === false){
       checkAnswer(appState, userInput);
       if (appState.currentQuestion < appState.questions.length - 1) {
