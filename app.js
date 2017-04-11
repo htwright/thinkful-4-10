@@ -33,6 +33,7 @@ const appState = {
   //answer is the position of the answer in the choices array
 };
 
+
 function render(state, element, choice) {
   element.empty();
   let index = state.currentQuestion;
@@ -93,7 +94,10 @@ function checkAnswer(state, input) {
   }
 }
 
-//submit should not instantly render next question
+//users must be able to see which question they are on currently ${state.currentquestion +1} and current score on choices screen
+//intermediate screen must show correct answer if provided answer was incorrect
+
+
 $(document).ready(function () {
     let container = $('.container');
     render(appState, container, 'startingScreen');
@@ -104,24 +108,20 @@ $(document).ready(function () {
     })
   $('div').on('click', '#submitButton', function (event) {
     event.preventDefault();
-    let userInput = $("input[name='choice']:checked").val() ;
-    checkAnswer(appState, userInput);
-    if (appState.currentQuestion < appState.questions.length - 1) {
-      render(appState, container, 'intermediateScreen');
-      appState.currentQuestion++;
-      setTimeout(function(){
-        render(appState, container, 'choices');
-      }, 4000);
-    } else {
-      render(appState, container, 'closingScreen');
+    let userInput = parseInt($("input[name='choice']:checked").val());
+    console.log(userInput);
+    if (isNaN(userInput) === false){
+      checkAnswer(appState, userInput);
+      if (appState.currentQuestion < appState.questions.length - 1) {
+        render(appState, container, 'intermediateScreen');
+        appState.currentQuestion++;
+        setTimeout(function(){
+          render(appState, container, 'choices');
+        }, 4000);
+      } else {
+        render(appState, container, 'closingScreen');
+      }
     }
-
-//console.log("HELLO");
-//setTimeout(function(){
-//    console.log("THIS IS");
-//}, 2000);
-//console.log("DOG");
-
   })
 
   $('div').on('click', '.startOverButton', function (event) {
@@ -132,5 +132,4 @@ $(document).ready(function () {
   })
 
 })
-
 //render functions
