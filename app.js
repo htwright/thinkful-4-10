@@ -98,7 +98,7 @@ function checkAnswer(state, input) {
 //start
 $(document).ready(function () {
     let container = $('.container');
-    let userInput = $('input[name=choice]:radio:checked').val());
+    let userInput = $('input[name=choice]:radio:checked').val();
     $('.startButton').click(function (event) {
       appState.currentQuestion = 0;
       render(appState, container, 'choices');
@@ -125,4 +125,5 @@ $(document).ready(function () {
   })
 
 })
+
 //render functions
