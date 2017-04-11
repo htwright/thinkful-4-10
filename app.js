@@ -60,7 +60,7 @@ function render(state, element, choice) {
 
   let closingScreenHTML =
     `<h1>Game Over</h1>
-    <span class="">You got ${correctAnswers.length} of ${appState.questions.length}.</span>
+    <span class="">You got ${correctAnswers.length} of ${appState.questions.length}correct.</span>
     <button class="startOverButton">Start Over
     </button>`;
     element.html(closingScreenHTML);
@@ -70,22 +70,17 @@ function render(state, element, choice) {
     <button class= 'startButton'> Start quiz!</button>`;
     element.html(startingScreenHTML)
   } else if (choice == 'intermediateScreen'){
-    
+    let correctAnswers = appState.results.filter(function (result) {
+    return result === 'correct';
+  })
+    let intermediateScreenHTML = `<h1>That answer was ${state.results[index]}.</h1>
+                                  <h2>You have${correctAnswers.length} out of ${appState.results.length}correct.</h2>`;
   }
 }
+//if we check answer before we render the intermediate screen
+//we can use state.currentQuestion as index of the results array 
+//to display correct/incorrect
 
-//function nextQuestion(state) {
-//
-//  if (state.results[state.currentQuestion] == "correct") {
-//		console.log("Your answer was correct");
-//	}
-//  else if (state.results[state.currentQuestion] == "incorrect") {
-//		console.log("Your answer was incorrect");
-//	} else {
-//      console.log("Your answer was invalid");
-//    }
-//
-//}
 
 function checkAnswer(state, input) {
   let currentIndex = state.currentQuestion;
@@ -97,12 +92,10 @@ function checkAnswer(state, input) {
   }
 }
 
-//first submit re-displays current index of questions
-//second submit and beyond increment properly
-
 //submit should not instantly render next question
 $(document).ready(function () {
     let container = $('.container');
+    render(appState, container, 'startingScreen');
   //parseInt( $("input[name='choice']:checked").val() );
     $('div').on('click', '.startButton', function (event) {
       appState.currentQuestion = 0;
@@ -111,7 +104,6 @@ $(document).ready(function () {
   $('div').on('click', '#submitButton', function (event) {
     event.preventDefault();
     let userInput = $("input[name='choice']:checked").val() ;
-    console.log(userInput);
     checkAnswer(appState, userInput);
     if (appState.currentQuestion < appState.questions.length - 1) {
       appState.currentQuestion++;
