@@ -28,9 +28,6 @@ const appState = {
       answer: 18
     }
   ]
-  //draw options from ${questions[index].choices}
-  //map array and draw HTML
-  //answer is the position of the answer in the choices array
 };
 function getCorrect(){
   let x = appState.results.filter(function (result) {
@@ -44,10 +41,6 @@ function getIncorrect(){
   })
   return x;
 }
-//users must be able to see which question they are on currently ${state.currentquestion +1} and current score on choices screen
-//intermediate screen must show correct answer if provided answer was incorrect
-
-
 function render(state, element, choice) {
   element.empty();
   let index = state.currentQuestion;
@@ -56,9 +49,7 @@ function render(state, element, choice) {
   let incorrectAnswers = getIncorrect();
   //let current = 
   let choicesHTML =
- 
-    //added ID to quizForm for selection purposes
-    `<h1>QUESTION #${state.currentQuestion +1}<br> ${state.questions[index].question}</h1>
+     `<h1>QUESTION #${state.currentQuestion +1}<br> ${state.questions[index].question}</h1>
       <h2>Current Score <br> ${correctAnswers.length} correct <br>${incorrectAnswers.length} incorrect</h2>
       <form id = 'quizForm'>
       <input type ='radio' name='choice'value ='${state.questions[index].choices[0]}'> ${state.questions[index].choices[0]}<br>
@@ -95,7 +86,6 @@ function render(state, element, choice) {
     element.html(intermediateScreenHTML);
   }
 }
-
 function checkAnswer(state, input) {
   let currentIndex = state.currentQuestion;
   let solution = state.questions[currentIndex].answer;
@@ -105,16 +95,9 @@ function checkAnswer(state, input) {
     state.results.push("incorrect");
   }
 }
-
-//be able to let = correctAnswers();
-
-//filter through results return the array thats made with filter
-
-
 $(document).ready(function () {
     let container = $('.container');
     render(appState, container, 'startingScreen');
-  //parseInt( $("input[name='choice']:checked").val() );
     $('div').on('click', '.startButton', function (event) {
       appState.currentQuestion = 0;
       render(appState, container, 'choices');
@@ -136,13 +119,9 @@ $(document).ready(function () {
       }
     }
   })
-
   $('div').on('click', '.startOverButton', function (event) {
-//    event.preventDefault();
     appState.currentQuestion = null;
     appState.results = [];
     render(appState, container, 'startingScreen');
   })
-
 })
-//render functions
