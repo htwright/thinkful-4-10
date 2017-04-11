@@ -53,12 +53,13 @@ function render(state, element, choice) {
   let index = state.currentQuestion;
   if (choice == 'choices') {
   let correctAnswers = getCorrect();
+  let incorrectAnswers = getIncorrect();
   //let current = 
   let choicesHTML =
  
     //added ID to quizForm for selection purposes
     `<h1>QUESTION #${state.currentQuestion +1}<br> ${state.questions[index].question}</h1>
-      <h2>Current Score = ${correctAnswers.length}</h2>
+      <h2>Current Score <br> ${correctAnswers.length} correct <br>${incorrectAnswers.length} incorrect</h2>
       <form id = 'quizForm'>
       <input type ='radio' name='choice'value ='${state.questions[index].choices[0]}'> ${state.questions[index].choices[0]}<br>
       <input type ='radio' name='choice'value ='${state.questions[index].choices[1]}'> ${state.questions[index].choices[1]}<br>
