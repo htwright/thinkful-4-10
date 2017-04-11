@@ -13,3 +13,13 @@
 button{
   background-color:darkviolet;
 }
+
+.bar-container{
+	height: 50px;
+	background-color: white;
+}
+
+.bar-bar {
+	height: 50px;
+	background-color: black;
+}

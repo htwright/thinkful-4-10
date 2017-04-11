@@ -47,7 +47,8 @@ function render(state, element, choice) {
   if (choice == 'choices') {
   let correctAnswers = getCorrect();
   let incorrectAnswers = getIncorrect();
-  //let current = 
+  let percentage = (index / 5) * 100; 
+  console.log(percentage);
   let choicesHTML =
      `<h1>QUESTION #${state.currentQuestion +1}<br> ${state.questions[index].question}</h1>
       <h2>Current Score <br> ${correctAnswers.length} correct <br>${incorrectAnswers.length} incorrect</h2>
@@ -58,7 +59,11 @@ function render(state, element, choice) {
       <input type ='radio' name='choice'value ='${state.questions[index].choices[3]}'> ${state.questions[index].choices[3]}<br>
       <input type ='radio' name='choice'value ='${state.questions[index].choices[4]}'> ${state.questions[index].choices[4]}<br>
       <button id='submitButton' type='button'>submit answer</button>
-     </form>`;
+     </form>
+     <div class='bar-container'>
+        <div class='bar-bar' style=width:${percentage}%></div>
+      </div>`;
+
       element.html(choicesHTML);
 
   }  else if (choice == 'closingScreen') {
