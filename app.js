@@ -32,15 +32,33 @@ const appState = {
   //map array and draw HTML
   //answer is the position of the answer in the choices array
 };
+function getCorrect(){
+  let x = appState.results.filter(function (result) {
+  return result === 'correct';
+  })
+  return x;
+}
+function getIncorrect(){
+  let x = appState.results.filter(function (result) {
+  return result === 'incorrect';
+  })
+  return x;
+}
+//users must be able to see which question they are on currently ${state.currentquestion +1} and current score on choices screen
+//intermediate screen must show correct answer if provided answer was incorrect
 
 
 function render(state, element, choice) {
   element.empty();
   let index = state.currentQuestion;
   if (choice == 'choices') {
+  let correctAnswers = getCorrect();
+  //let current = 
   let choicesHTML =
+ 
     //added ID to quizForm for selection purposes
-    `<h1>${state.questions[index].question}</h1>
+    `<h1>QUESTION #${state.currentQuestion +1}<br> ${state.questions[index].question}</h1>
+      <h2>Current Score = ${correctAnswers.length}</h2>
       <form id = 'quizForm'>
       <input type ='radio' name='choice'value ='${state.questions[index].choices[0]}'> ${state.questions[index].choices[0]}<br>
       <input type ='radio' name='choice'value ='${state.questions[index].choices[1]}'> ${state.questions[index].choices[1]}<br>
@@ -52,12 +70,8 @@ function render(state, element, choice) {
       element.html(choicesHTML);
 
   }  else if (choice == 'closingScreen') {
-    let correctAnswers = appState.results.filter(function (result) {
-    return result === 'correct';
-  });
-  let incorrectAnswers = appState.results.filter(function (result) {
-    return result === 'incorrect';
-  });
+    let correctAnswers = getCorrect();
+    let incorrectAnswers = getIncorrect();
 
   let closingScreenHTML =
     `<h1>Game Over</h1>
@@ -71,18 +85,15 @@ function render(state, element, choice) {
     <button class= 'startButton'> Start quiz!</button>`;
     element.html(startingScreenHTML);
   } else if (choice == 'intermediateScreen'){
-    let correctAnswers = appState.results.filter(function (result) {
-    return result === 'correct';
-  })
+    let correctAnswers = getCorrect();
     let intermediateScreenHTML = `<h1>That answer was ${state.results[index]}.</h1>
                                   <h2>You have${correctAnswers.length} out of ${appState.results.length}correct.</h2>`;
+    if (state.results[index] == 'incorrect'){
+      intermediateScreenHTML += `<h3> correct answer was ${state.questions[index].answer}`
+    }
     element.html(intermediateScreenHTML);
   }
 }
-//if we check answer before we render the intermediate screen
-//we can use state.currentQuestion as index of the results array 
-//to display correct/incorrect
-
 
 function checkAnswer(state, input) {
   let currentIndex = state.currentQuestion;
@@ -94,8 +105,9 @@ function checkAnswer(state, input) {
   }
 }
 
-//users must be able to see which question they are on currently ${state.currentquestion +1} and current score on choices screen
-//intermediate screen must show correct answer if provided answer was incorrect
+//be able to let = correctAnswers();
+
+//filter through results return the array thats made with filter
 
 
 $(document).ready(function () {
